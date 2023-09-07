@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Password Strength Checker</title>
+</head>
+<body>
+  <h1>Password Strength Checker</h1>
+  <form id="passwordForm">
+    <label for="password">Enter your password:</label>
+    <input type="password" id="password" name="password" required>
+    <button type="button" id="checkButton">Check Strength</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    function checkPasswordStrength(password) {
+      const lengthCriteria = password.length >= 8;
+      const uppercaseCriteria = /[A-Z]/.test(password);
+      const lowercaseCriteria = /[a-z]/.test(password);
+      const digitCriteria = /\d/.test(password);
+      const specialCharCriteria = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+      if (lengthCriteria && uppercaseCriteria && lowercaseCriteria && digitCriteria && specialCharCriteria) {
+        return "Strong";
+      } else if (lengthCriteria && (uppercaseCriteria || lowercaseCriteria) && digitCriteria) {
+        return "Medium";
+      } else {
+        return "Weak";
+      }
+    }
+
+    const checkButton = document.getElementById("checkButton");
+    const resultDiv = document.getElementById("result");
+
+    checkButton.addEventListener("click", () => {
+      const passwordInput = document.getElementById("password");
+      const password = passwordInput.value;
+      const rating = checkPasswordStrength(password);
+      resultDiv.innerHTML = `Password strength: ${rating}`;
+    });
+  </script>
+</body>
+</html>
